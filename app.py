@@ -1,10 +1,12 @@
 # starta bank (banktjänsterna)
 from bank import Bank
 from customer import Customer
-
+from db import Db
 
 def main():
-    bank = Bank("Banko", "1234") # name, banknr
+    db = Db()
+    conn = db.get_conn()
+    bank = Bank("Banko", "1234", conn) # name, banknr
     customer = Customer("Benjamin", "197001092456") # new Customer
     bank.add_customer(customer)
     my_account = customer.accounts[0]
