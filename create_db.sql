@@ -1,0 +1,28 @@
+create table banks
+(
+    id    serial
+        primary key,
+    name  text not null,
+    banknr text not null
+        unique
+);
+
+create table customers
+(
+    id    serial
+        primary key,
+    name  text not null,
+    ssn  text not null
+        unique
+);
+
+create table accounts
+(
+    id    serial
+        primary key,
+    customer int not null,
+    bank int not null,
+    type text not null,
+    nr text not null,
+    credit int not null default 0
+);
