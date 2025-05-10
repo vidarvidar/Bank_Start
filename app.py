@@ -5,7 +5,7 @@ from db import Db
 
 def main():
     setupExample()
-    # usageExample()
+    usageExample()
 
 def setupExample():
     # create a new bank
@@ -16,7 +16,17 @@ def setupExample():
     bank.add_customer(customer)
 
 def usageExample():
-    customer = Customer().get("197001092456")
+    bank = Bank().get("2345")
+    customer1 = Customer().get("197001092456")
+    print("customer1 " + customer1.name)
+    for account in customer1.accounts:
+        print(account['nr'])
+    # print("customer1 account[0] " + customer1.accounts[0].nr)
+    # customer2 = bank.get_customer("197001092456")
+    # print("customer2 " + customer2.name)
+    # print("customer2 account[0] " + customer2.accounts[0].nr)
+
+def laters():
     my_account = customer.accounts[0]
     my_account.deposit(1000)
     print(my_account.get_balance())

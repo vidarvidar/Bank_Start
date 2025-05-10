@@ -14,17 +14,29 @@ class Bank:
         self.conn = Db().get_conn()
 
     def create(self, name, banknr):
-        self.name = name
-        self.banknr = banknr
         try:
             with self.conn:
                 cursor = self.conn.cursor()
-                cursor.execute("INSERT INTO banks (name, banknr) VALUES (%s, %s)", [self.name, self.banknr])
+                cursor.execute("INSERT INTO banks (name, banknr) VALUES (%s, %s)", [name, banknr])
                 self.conn.commit()
-                print(f"Bank '{self.name}' created successfully.")
+                print(f"Bank '{name}' created successfully. Getting data.")
         except:
-            print(f"[Warning] Bank with name {self.name} already exists. Skipping creation.")
-        return self
+            print(f"[Warning] Bank with name {name} already exists. Getting data.")
+        return self.get(banknr)
+
+    def get(self, banknr):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM banks WHERE banknr = %s", [banknr])
+        bank = cursor.fetchone()
+        if(bank[0]):
+            print(f"Bank loaded.")
+            self.id = bank[0]
+            self.name = bank[1]
+            self.banknr = bank[2]
+            return self
+        else:
+            print(f"[Warning] Bank with banknr {banknr} not found.")
+            return None
 
     def add_customer(self, customer):
         new_account = Account().create(customer, self, "Personal_account", customer.ssn)

@@ -23,6 +23,7 @@ create table accounts
     customer int not null,
     bank int not null,
     type text not null,
-    nr text not null,
+    nr text not null
+        unique,
     credit int not null default 0
 );
