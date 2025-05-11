@@ -56,7 +56,7 @@ class Account:
 
     def get_transactions(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM transactions WHERE account = %s", [self.id,])
+        cursor.execute("SELECT * FROM transactions WHERE account_nr = %s", [self.nr,])
         transactions = cursor.fetchall()
         ts = []
         for transaction in transactions:
@@ -69,7 +69,7 @@ class Account:
 
     def get_balance(self):
         balance = 0
-        for transaction in self.transactions:
+        for transaction in self.get_transactions():
             balance += transaction['amount']
         self.balance = balance
         return balance

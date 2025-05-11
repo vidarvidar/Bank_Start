@@ -49,19 +49,4 @@ class Customer:
             accs.append(Account().get(account[4]))
         return accs
 
-    def old_get_accounts(self):
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM accounts WHERE customer = %s", [self.id,])
-        accounts = cursor.fetchall()
-        accs = []
-        for account in accounts:
-            accs.append({
-                "id": account[0],
-                "customer": account[1],
-                "bank": account[2],
-                "type": account[3],
-                "nr": account[4],
-                "credit": account[5]
-            })
-        return accs
 

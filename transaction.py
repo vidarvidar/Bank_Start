@@ -6,11 +6,10 @@ class Transaction:
         self.conn = Db().get_conn()
 
     def create(self, amount, account):
-        account = account.id
         try:
             with self.conn:
                 cursor = self.conn.cursor()
-                cursor.execute("INSERT INTO transactions (amount, account) VALUES (%s, %s)", [amount, account])
+                cursor.execute("INSERT INTO transactions (amount, account_nr) VALUES (%s, %s)", [amount, account.nr])
                 self.conn.commit()
                 print(f"Transaction '{amount}' created successfully.")
         except:

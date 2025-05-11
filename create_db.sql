@@ -33,5 +33,5 @@ create table transactions
     id    serial
         primary key,
     amount  int not null default 0,
-    account int not null
+    account_nr text not null
 );
