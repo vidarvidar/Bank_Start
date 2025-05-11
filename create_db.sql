@@ -27,3 +27,11 @@ create table accounts
         unique,
     credit int not null default 0
 );
+
+create table transactions
+(
+    id    serial
+        primary key,
+    amount  int not null default 0,
+    account int not null
+);

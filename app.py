@@ -15,12 +15,17 @@ def setupExample():
     customer = Customer().create("Benjamin", "7001092456") # return customer object
     # add the customer to the bank we created (and add a personal account, which every new customer gets)
     bank.add_customer(customer)
+    personal_account = customer.accounts[0]
+    print(personal_account.get_balance())
+    personal_account.deposit(200)
+    print(personal_account.get_balance())
+
     # also add a savings account
     # nr = Account.generate_nr() # 8064047892
-    bank.add_account(customer, "Savings_account", "8064047892")
-    accounts = customer.get_accounts()
-    for account in accounts:
-        print(account['nr'])
+    savings_account = bank.add_account(customer, "Savings_account", "8064047892")
+    print(savings_account.get_balance())
+    savings_account.deposit(300)
+    print(savings_account.get_balance())
 
 
 def usageExample():
@@ -29,6 +34,8 @@ def usageExample():
     print("customer1 " + customer1.name)
     for account in customer1.accounts:
         print(account['nr'])
+    #for transaction in customer1.accounts[0].transactions:
+        # print(transaction.amount)
     # print("customer1 account[0] " + customer1.accounts[0].nr)
     # customer2 = bank.get_customer("197001092456")
     # print("customer2 " + customer2.name)

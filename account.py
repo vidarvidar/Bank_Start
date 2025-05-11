@@ -6,6 +6,8 @@
 import random
 
 from db import Db
+from transaction import Transaction
+
 
 class Account:
 
@@ -46,21 +48,40 @@ class Account:
             self.type = account[3]
             self.nr = account[4]
             self.credit = account[5]
+            self.transactions = self.get_transactions()
             return self
         else:
             print(f"[Warning] Account {nr} not found.")
             return None
 
+    def get_transactions(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM transactions WHERE account = %s", [self.id,])
+        transactions = cursor.fetchall()
+        ts = []
+        for transaction in transactions:
+            ts.append({
+                "id": transaction[0],
+                "amount": transaction[1],
+                "account": transaction[2]
+            })
+        return ts
+
     def get_balance(self):
-        return self.balance
+        balance = 0
+        for transaction in self.transactions:
+            balance += transaction['amount']
+        self.balance = balance
+        return balance
 
     def deposit(self, amount):
-        self.balance += amount
+        if amount > 0:
+            Transaction().create(amount, self)
 
     def withdraw(self, amount):
-        if(amount <= self.balance + self.credit):
-            self.balance -= amount
-            return amount
+        if(amount <= self.get_balance() + self.credit):
+            Transaction().create(-amount, self)
+            return -amount
         else:
             return 0
 
