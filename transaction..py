@@ -1,38 +1,21 @@
-# can withdraw
-# can deposit
-# has interest
-# has balance
-# has currency
-import random
-
 from db import Db
 
-class Account:
+class Transaction:
 
     def __init__(self):
         self.conn = Db().get_conn()
-        self.balance = 0
 
-    @staticmethod
-    def generate_nr():
-        return str(random.randint(10 ** 9, 10 ** 10 - 1))
-
-    def create(self, customer, bank, type, nr):
-        customer = customer.id
-        type = type
-        nr = bank.banknr + "-" + nr
-        bank = bank.id
-        credit = 0
-
+    def create(self, account, amount):
+        account = account.nr
         try:
             with self.conn:
                 cursor = self.conn.cursor()
-                cursor.execute("INSERT INTO accounts (customer, bank, type, nr, credit) VALUES (%s, %s, %s, %s, %s)", [customer, bank, type, nr, credit])
+                cursor.execute("INSERT INTO transactions (account, amount) VALUES (%s, %s)", [account, amount])
                 self.conn.commit()
-                print(f"Account '{nr}' created successfully. Getting data.")
+                print(f"Transaction '{amount}' created successfully.")
         except:
-            print(f"[Warning] Account with number {nr} already exists. Getting data.")
-        return self.get(nr)
+            print(f"[Warning] This should not happen.")
+        return amount
 
     def get(self, nr):
         cursor = self.conn.cursor()

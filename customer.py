@@ -34,15 +34,15 @@ class Customer:
             self.id = customer[0]
             self.name = customer[1]
             self.ssn = customer[2]
-            self.accounts = self.get_accounts(self.id)
+            self.accounts = self.get_accounts()
             return self
         else:
             print(f"[Warning] Customer with ssn {ssn} not found.")
             return None
 
-    def get_accounts(self, id):
+    def get_accounts(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM accounts WHERE customer = %s", [id,])
+        cursor.execute("SELECT * FROM accounts WHERE customer = %s", [self.id,])
         accounts = cursor.fetchall()
         accs = []
         for account in accounts:

@@ -39,11 +39,11 @@ class Bank:
             return None
 
     def add_customer(self, customer):
-        new_account = Account().create(customer, self, "Personal_account", customer.ssn)
-        self.accounts.append(new_account)
         self.customers.append(customer)
+        self.add_account(customer, "Personal_account", customer.ssn) # add a personal account
+        return customer
 
-    def add_account(self, bank, type):
-        new_account = Account(bank, "Personal_Account", self.ssn)
+    def add_account(self, customer, type, nr):
+        new_account = Account().create(customer, self, type, nr)
         self.accounts.append(new_account)
         return new_account
