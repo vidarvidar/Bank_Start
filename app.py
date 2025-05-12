@@ -9,7 +9,7 @@ def main():
     # create a new bank
     bank = Bank().create("Tres Banko", "2345") # return bank object
     # create a new customer
-    customer = Customer().create("Benjamin", "7001092456") # return customer object
+    customer = Customer().create("Bonjamin", "8001092456") # return customer object
 
     # add the customer to the bank we created (and add a personal account, which every new customer gets)
     bank.add_customer(customer)

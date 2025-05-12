@@ -13,5 +13,5 @@ class Transaction:
                 self.conn.commit()
                 print(f"Transaction '{amount}' created successfully.")
         except:
-            print(f"[Warning] This should not happen.")
+            print(f"[Warning] Transaction blocked due to constraint violation, date or non approved customer.")
         return amount
