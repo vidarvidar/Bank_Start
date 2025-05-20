@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pythonbank@localhost" uuid="1338ee79-2928-4e8a-8f55-a62aa23f0658">
+    <data-source source="LOCAL" name="bank@localhost" uuid="3a1a0b83-0110-4288-98a7-40b441383513">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/pythonbank</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/bank</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
