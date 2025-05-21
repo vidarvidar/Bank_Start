@@ -1,7 +1,27 @@
 from sqlalchemy import Column, String, Numeric, Integer, ForeignKey, DateTime
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
+
+# class Customer(Base):
+#
+#     __tablename__ = 'customers'
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String, nullable=False)
+#     address = Column(String, nullable=False)
+#     ssn = Column(String, nullable=False, unique=True)
+#     phone = Column(String, nullable=True)
+#
+#     accounts = relationship('Account', back_populates='customer')
+#
+#     def __init__(self, name, address, ssn, phone):
+#         self.name = name
+#         self.address = address
+#         self.ssn = ssn
+#         self.phone = phone
+#
+#     def __repr__(self):
+#         return f'{self.name} with SSN: {self.ssn} has address: {self.address} and phonenumber: {self.phone}'
 
 class Account(Base):
 
@@ -9,33 +29,20 @@ class Account(Base):
     id = Column(Integer, primary_key=True)
     account_number = Column(String, unique=True, nullable=False)
     balance = Column(Numeric, default=0, nullable=False)
-    account_holder = Column(Integer, ForeignKey('customers.id'), nullable=False)
-
-    def __init__(self, account_number, account_holder):
-        self.account_number = account_number
-        self.account_holder = account_holder
-
-    def __repr__(self):
-        return f'{self.account_number} is owned by {self.account_holder} with a balance of {self.balance}'
-
-
-class Customer(Base):
-
-    __tablename__ = 'customers'
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    customer = Column(String, nullable=False)
     address = Column(String, nullable=False)
-    ssn = Column(String, nullable=False, unique=True)
+    ssn = Column(String, nullable=False)
     phone = Column(String, nullable=True)
 
-    def __init__(self, name, address, ssn, phone):
-        self.name = name
+    def __init__(self, account_number, customer, address, ssn, phone):
+        self.account_number = account_number
+        self.customer = customer
         self.address = address
         self.ssn = ssn
         self.phone = phone
 
     def __repr__(self):
-        return f'{self.name} with SSN: {self.ssn} has address: {self.address} and phonenumber: {self.phone}'
+        return f'{self.account_number} is owned by {self.customer} with a balance of {self.balance}'
 
 class Transaction(Base):
 
