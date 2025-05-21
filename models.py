@@ -26,7 +26,7 @@ class Customer(Base):
     name = Column(String, nullable=False)
     address = Column(String, nullable=False)
     ssn = Column(String, nullable=False, unique=True)
-    phone = Column(String, nullable=True, unique=True)
+    phone = Column(String, nullable=True)
 
     def __init__(self, name, address, ssn, phone):
         self.name = name
