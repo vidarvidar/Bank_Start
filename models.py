@@ -47,7 +47,7 @@ class Account(Base):
 class Transaction(Base):
 
     __tablename__ = 'transactions'
-    id = Column(Integer, primary_key=True)
+    id = Column(String, primary_key=True)
     timestamp = Column(DateTime)
     amount = Column(Numeric, nullable=False)
     currency = Column(String, nullable=False)
@@ -60,7 +60,8 @@ class Transaction(Base):
     transaction_type = Column(String, nullable=False)
     notes = Column(String, nullable=True)
 
-    def __init__(self, timestamp, amount, currency, sender_account, receiver_account, sender_country, sender_municipality, receiver_country, receiver_municipality, transaction_type):
+    def __init__(self, id, timestamp, amount, currency, sender_account, receiver_account, sender_country, sender_municipality, receiver_country, receiver_municipality, transaction_type, notes):
+        self.id = id
         self.timestamp = timestamp
         self.amount = amount
         self.currency = currency
@@ -71,7 +72,7 @@ class Transaction(Base):
         self.receiver_country = receiver_country
         self.receiver_municipality = receiver_municipality
         self.transaction_type = transaction_type
-        self.notes = ''
+        self.notes = notes
 
     def __repr__(self):
         return f'Transaction {self.id} of {self.amount} {self.currency} from {self.sender_account} to {self.receiver_account} occurred at {self.timestamp}'
