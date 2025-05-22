@@ -5,8 +5,8 @@
 # has currency
 import random
 
-from db import Db
-from transaction import Transaction
+from db_deprecated import Db
+from transaction_deprecated import Transaction
 
 
 class Account:
