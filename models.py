@@ -3,25 +3,28 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-# class Customer(Base):
-#
-#     __tablename__ = 'customers'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String, nullable=False)
-#     address = Column(String, nullable=False)
-#     ssn = Column(String, nullable=False, unique=True)
-#     phone = Column(String, nullable=True)
-#
-#     accounts = relationship('Account', back_populates='customer')
-#
-#     def __init__(self, name, address, ssn, phone):
-#         self.name = name
-#         self.address = address
-#         self.ssn = ssn
-#         self.phone = phone
-#
-#     def __repr__(self):
-#         return f'{self.name} with SSN: {self.ssn} has address: {self.address} and phonenumber: {self.phone}'
+class Customer(Base):
+
+    __tablename__ = 'customers'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    street = Column(String, nullable=True)
+    municipality = Column(String, nullable=False)
+    ssn = Column(String, nullable=False, unique=True)
+    phone = Column(String, nullable=True)
+
+    accounts = relationship('Account', back_populates='customer')
+
+    account_list = []
+
+    def __init__(self, name, address, ssn, phone):
+        self.name = name
+        self.address = address
+        self.ssn = ssn
+        self.phone = phone
+
+    def __repr__(self):
+        return f'{self.name} with SSN: {self.ssn} has address: {self.address} and phonenumber: {self.phone}'
 
 class Account(Base):
 
@@ -29,17 +32,22 @@ class Account(Base):
     id = Column(Integer, primary_key=True)
     account_number = Column(String, unique=True, nullable=False)
     balance = Column(Numeric, default=0, nullable=False)
-    customer = Column(String, nullable=False)
-    address = Column(String, nullable=False)
-    ssn = Column(String, nullable=False)
-    phone = Column(String, nullable=True)
+    customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
+    # customer = Column(String, nullable=False)
+    # address = Column(String, nullable=False)
+    # ssn = Column(String, nullable=False)
+    # phone = Column(String, nullable=True)
 
-    def __init__(self, account_number, customer, address, ssn, phone):
+    customer = relationship('Customer', back_populates='accounts')
+
+    def __init__(self, account_number, customer_id):
         self.account_number = account_number
-        self.customer = customer
-        self.address = address
-        self.ssn = ssn
-        self.phone = phone
+        self.customer_id = customer_id
+
+        # self.customer = customer
+        # self.address = address
+        # self.ssn = ssn
+        # self.phone = phone
 
     def __repr__(self):
         return f'{self.account_number} is owned by {self.customer} with a balance of {self.balance}'

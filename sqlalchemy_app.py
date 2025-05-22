@@ -13,10 +13,10 @@ def main():
     db_table_trasher(Transaction)
     db_table_trasher(Account)
 
-    df = csv_reader_renamer('Accounts', 'data/sebank_customers_with_accounts.csv')
-    db_adder('Accounts', df)
-    df = csv_reader_renamer('Transactions', 'data/transactions.csv')
-    db_adder('Transactions', df)
+    # df = csv_reader_renamer('Accounts', 'data/sebank_customers_with_accounts.csv')
+    # db_adder('Accounts', df)
+    # df = csv_reader_renamer('Transactions', 'data/transactions.csv')
+    # db_adder('Transactions', df)
 
 if __name__ == '__main__':
     main()
