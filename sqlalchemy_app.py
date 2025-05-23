@@ -14,7 +14,7 @@ def main():
 
     db_table_trasher(Transaction)
     db_table_trasher(Account)
-
+    db_table_trasher(Customer)
     init_db()
     db = Session(engine)
 
