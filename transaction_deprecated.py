@@ -1,4 +1,4 @@
-from db import Db
+from db_deprecated import Db
 
 class Transaction:
 

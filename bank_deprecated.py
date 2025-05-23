@@ -3,8 +3,8 @@
 # can lend (from its own accounts)
 # can transfer (to/from other banks)
 
-from account import Account
-from db import Db
+from account_deprecated import Account
+from db_deprecated import Db
 
 class Bank:
     customers = []
