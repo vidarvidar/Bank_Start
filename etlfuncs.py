@@ -1,5 +1,6 @@
 # funcions used in ETL process
 import pandas as pd
+import random
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from models import Base, Account, Transaction
@@ -60,4 +61,15 @@ def db_adder(table, df):
         except SQLAlchemyError as e:
             print("Unsuccesful Account import", e)
             db.rollback()
+    db.close()
+
+
+def balance_randomizer(lower, upper):
+    init_db()
+    db = Session(engine)
+
+    accounts = db.query(Account).all()
+    for account in accounts:
+        setattr(account, 'balance', float(random.randint(lower, upper)))
+    db.commit()
     db.close()
