@@ -21,13 +21,19 @@ https://trello.com/b/NMVyI4wz/bankdatakvalitet
 Måndag 2025-05-19 09:00-16:00  
 Tisdag 2025-05-20 09:00-16:00  
 Onsdag 2025-05-21 09:00-16:00  
-Torsdag 2025-05-22 09:00-16:00
+Torsdag 2025-05-22 09:00-16:00  
+Fredag 2025-05-23 09:00-16:00
 
 ## Standups:
 Tisdag 2025-05-20 09:00   
 Tisdag 2025-05-20 15:00  
 Onsdag 2025-05-21 09:00  
-Onsdag 2025-05-21 13:00  
+Onsdag 2025-05-21 13:00   
+Torsdag 2025-05-22 09:00  
+Torsdag 2025-05-22 13:00  
+Fredag 2025-05-23 10:00  
+Fredag 2025-05-23 13:00  
+Fredag 2025-05-23 15:30
 
 ## Beslut
 * Skapa Github repo / 2025-05-19  
