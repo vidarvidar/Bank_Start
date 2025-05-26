@@ -8,29 +8,34 @@ class Customer(Base):
     __tablename__ = 'customers'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    street = Column(String, nullable=True)
-    municipality = Column(String, nullable=False)
+    address = Column(String, nullable=True)
     ssn = Column(String, nullable=False, unique=True)
     phone = Column(String, nullable=True)
 
     accounts = relationship('Account', back_populates='customer')
 
-    account_list = []
-
-    def __init__(self, name, address, ssn, phone):
+    def __init__(self, name, ssn, address, phone):
         self.name = name
         self.address = address
         self.ssn = ssn
         self.phone = phone
+        self.account_list = []
 
     def __repr__(self):
         return f'{self.name} with SSN: {self.ssn} has address: {self.address} and phonenumber: {self.phone}'
+
+    def add_account(self, account_number, municipality, customer_id):
+        self.account_list.append(account_number)
+        new_account = Account(account_number=account_number, municipality=municipality, customer_id=customer_id)
+        return new_account
+
 
 class Account(Base):
 
     __tablename__ = 'accounts'
     id = Column(Integer, primary_key=True)
     account_number = Column(String, unique=True, nullable=False)
+    municipality = Column(String, nullable=False)
     balance = Column(Numeric, default=0, nullable=False)
     customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
     # customer = Column(String, nullable=False)
@@ -38,10 +43,13 @@ class Account(Base):
     # ssn = Column(String, nullable=False)
     # phone = Column(String, nullable=True)
 
+
+
     customer = relationship('Customer', back_populates='accounts')
 
-    def __init__(self, account_number, customer_id):
+    def __init__(self, account_number, municipality, customer_id):
         self.account_number = account_number
+        self.municipality = municipality
         self.customer_id = customer_id
 
         # self.customer = customer
@@ -50,7 +58,7 @@ class Account(Base):
         # self.phone = phone
 
     def __repr__(self):
-        return f'{self.account_number} is owned by {self.customer} with a balance of {self.balance}'
+        return f'{self.account_number} has balance of {self.balance}'
 
 class Transaction(Base):
 
