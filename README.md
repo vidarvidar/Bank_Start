@@ -35,7 +35,8 @@ Torsdag 2025-05-22 13:00
 Fredag 2025-05-23 10:00  
 Fredag 2025-05-23 13:00  
 Fredag 2025-05-23 15:30  
-Måndag 2025-05-26 09:30
+Måndag 2025-05-26 09:30  
+Måndag 2025-05-26 13:00  
 
 ## Beslut
 * Skapa Github repo / 2025-05-19  
