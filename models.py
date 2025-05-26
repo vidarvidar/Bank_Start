@@ -43,6 +43,8 @@ class Account(Base):
     # ssn = Column(String, nullable=False)
     # phone = Column(String, nullable=True)
 
+
+
     customer = relationship('Customer', back_populates='accounts')
 
     def __init__(self, account_number, municipality, customer_id):
