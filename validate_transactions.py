@@ -6,7 +6,7 @@ def validate_transactions(filepath: str):
     warnings.filterwarnings("ignore", message="`result_format` configured at the Validator-level*")
 
     # Load the data
-    df = pd.read_csv("./data/transactions.csv")
+    df = pd.read_csv(filepath)
 
     # Regex for amount(Any number + "." + Any number): ^\d+\.\d+$
     amount_pattern = r"^-?\d+\.\d+$"
@@ -29,34 +29,34 @@ def validate_transactions(filepath: str):
 
     # Fixes amount
     df["amount"] = pd.to_numeric(df["amount"])  # Convert to numeric
-    df["amount"] = df["amount"].astype(float) # Convert to float
+    df["amount"] = df["amount"].astype(float)  # Convert to float
 
     # Fixes currency (removes spaces)
     df["currency"] = df["currency"].astype(str).str.replace(" ", "")
 
     formats_to_try_currency = [
-    "SEK",
-    "DKK",
-    "USD",
-    "EUR",
-    "NOK",
-    "RMB",
-    "ZAR",
-    "GBP",
-    "ZMW",
-    "JPY"
+        "SEK",
+        "DKK",
+        "USD",
+        "EUR",
+        "NOK",
+        "RMB",
+        "ZAR",
+        "GBP",
+        "ZMW",
+        "JPY"
     ]
 
     # Fixes datetime format
     formats_to_try_datetime = [
-    "%Y%m%d %H:%M:%S",
-    "%y-%m-%d %H:%M:%S",
-    "%Y-%m-%d %H:%M",
-    "%Y-%m-%d %H.%M",
-    "%Y-%m-%d %H.%M:%S",
-    "%Y-%m-%d %H.%M.%S",
-    "%Y-%m-%d %H:%M:%S",
-    "%Y.%m.%d %H.%M.%S"
+        "%Y%m%d %H:%M:%S",
+        "%y-%m-%d %H:%M:%S",
+        "%Y-%m-%d %H:%M",
+        "%Y-%m-%d %H.%M",
+        "%Y-%m-%d %H.%M:%S",
+        "%Y-%m-%d %H.%M.%S",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y.%m.%d %H.%M.%S"
     ]
 
     def parse_and_format(date_str):
@@ -68,6 +68,11 @@ def validate_transactions(filepath: str):
         return None
 
     df["timestamp"] = df["timestamp"].apply(parse_and_format)
+
+    filtered_df = df[
+        (df["transaction_type"] == "outgoing") &
+        (df["sender_account"].str[:2] != "SE")
+        ]
 
     # Create the ephemeral GX context
     context = gx.get_context()
@@ -98,9 +103,9 @@ def validate_transactions(filepath: str):
     validator.expect_column_values_to_match_regex("timestamp", regex=timestamp_pattern)
 
     validator.expect_column_values_to_not_be_null("transaction_id")
-    #validator.expect_column_values_to_not_be_null("timestamp")
-    #validator.expect_column_values_to_not_be_null("amount")
-    #validator.expect_column_values_to_not_be_null("currency")
+    # validator.expect_column_values_to_not_be_null("timestamp")
+    # validator.expect_column_values_to_not_be_null("amount")
+    # validator.expect_column_values_to_not_be_null("currency")
     validator.expect_column_values_to_not_be_null("sender_account")
     validator.expect_column_values_to_not_be_null("receiver_account")
     validator.expect_column_values_to_not_be_null("sender_country")
@@ -108,7 +113,6 @@ def validate_transactions(filepath: str):
     validator.expect_column_values_to_not_be_null("receiver_country")
     validator.expect_column_values_to_not_be_null("sender_municipality")
     validator.expect_column_values_to_not_be_null("transaction_type")
-
 
     # Validate
     results = validator.validate(result_format="COMPLETE")
@@ -120,28 +124,23 @@ def validate_transactions(filepath: str):
     # Put Unexpected into an invalid DF and expected into a valid DF
 
     unexpected_transactions = [
-    invalid_index
-    for result in results["results"]
-    for invalid_index in result["result"].get("unexpected_index_list", [])
+        invalid_index
+        for result in results["results"]
+        for invalid_index in result["result"].get("unexpected_index_list", [])
     ]
 
-    invalid_transactions = df.iloc[unexpected_transactions].copy() # List to iloc
-    valid_transactions = df.drop(index=unexpected_transactions) # Drop invalid rows from valid df
+    invalid_transactions = df.iloc[unexpected_transactions].copy()  # List to iloc
+    valid_transactions = df.drop(index=unexpected_transactions)  # Drop invalid rows from valid df
+    valid_transactions = df.drop(index=filtered_df.index)  # Drop the filtered rows form valid df
 
     invalid_transactions["approved"] = False
     valid_transactions["approved"] = True
 
     print(f"There are: {len(df)} Transaction entries.")
-    print(f"Invalid Transactions: {len(invalid_transactions)}")
+    print(f"Invalid Transactions: {len(invalid_transactions) + len(filtered_df)}")
     print(f"Valid Transactions: {len(valid_transactions)}")
 
-    print(f"Dropped {len(invalid_transactions)} invalid_transactions from valid_transactions. If there are >1 NULL in a row it counts are dropping 1 transaction.")
-
-    # Use like this:
-    # valid_df, invalid_df = validate_transactions("./data/transactions.csv")
-
-    # print(f"Valid rows: {len(valid_df)}")
-    # print(f"Invalid rows: {len(invalid_df)}")
-
+    print(f"Dropped {len(invalid_transactions)} invalid_transactions from valid_transactions.")
+    print(f"Dropped {len(filtered_df)} filtered transactions from valid_transactions")
 
     return valid_transactions, invalid_transactions
