@@ -4,8 +4,8 @@
 # can ask for credit
 # can try update personal info
 
-from account_deprecated import Account
-from db_deprecated import Db
+from old_files.account_deprecated import Account
+from old_files.db_deprecated import Db
 
 
 class Customer:

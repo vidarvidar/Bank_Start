@@ -1,8 +1,7 @@
 # starta bank (banktjänsterna)
-from account_deprecated import Account
-from bank_deprecated import Bank
-from customer import Customer
-from db_deprecated import Db
+from old_files.bank_deprecated import Bank
+from old_files.customer import Customer
+
 
 # this is just usage examples of how to use the various methods in the bank.
 def main():

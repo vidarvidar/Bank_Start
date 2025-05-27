@@ -3,7 +3,7 @@
 # can lend (from its own accounts)
 # can transfer (to/from other banks)
 
-from account_deprecated import Account
+from old_files.account_deprecated import Account
 from db_deprecated import Db
 
 class Bank:

@@ -10,6 +10,9 @@ from db_sqlalchemy import init_db, engine
 def main():
     db_table_trasher(Transaction)
     valid, invalid = validate_transactions('data/sample_transactions')
+
+
+
     df = valid.drop("approved", axis=1)
     transaction_column_mapper = {'transaction_id': 'id', 'timestamp': 'timestamp', 'amount': 'amount',
                                  'currency': 'currency', 'sender_account': 'sender_account',
