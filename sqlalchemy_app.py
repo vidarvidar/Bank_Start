@@ -5,9 +5,9 @@ import pandas as pd
 
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from models import Base, Customer, Account, Transaction
+from models import Customer, Account, Transaction
 from db_sqlalchemy import init_db, engine
-from etlfuncs import csv_reader_renamer, db_table_trasher, db_adder
+from etlfuncs import db_table_trasher
 
 
 def customer_account_main():
