@@ -67,7 +67,7 @@ def import_transactions():
 
         db.commit()
         print('Import Transactions Successful!')
-        print(len(invalid_list), 'items in invalid list,', len(valid), 'items in valid list')
+        print('Checking if account is in our bank... ', len(invalid_list), 'items in invalid list,', len(valid), 'items in valid list')
         db.close()
     except SQLAlchemyError as e:
         print("Unsuccesful Transaction import:", e)

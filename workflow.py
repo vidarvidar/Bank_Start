@@ -1,21 +1,21 @@
 from prefect import flow, task
-from validate_transactions import validate_transactions
 from sqlalchemy_app import customer_account_main
+from app_2 import import_transactions
 
 @task
 def add_customers():
+    print("Running customer_account_main...")
     customer_account_main()
 
 @task
-def run_validation():
-    valid, invalid, results = validate_transactions("data/sample_transactions")
-    return results
+def import_validated_transactions():
+    print("Validating and importing transactions...")
+    import_transactions()
 
 @flow
-def main():
+def workflow():
     add_customers()
-    results = run_validation()
-    print(results.result())
+    import_validated_transactions()
 
 if __name__ == '__main__':
-    main()
+    workflow()
