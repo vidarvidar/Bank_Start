@@ -10,7 +10,7 @@ from db_sqlalchemy import init_db, engine
 from etlfuncs import csv_reader_renamer, db_table_trasher, db_adder
 
 
-def main():
+def customer_account_main():
 
     db_table_trasher(Transaction)
     db_table_trasher(Account)
@@ -84,4 +84,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    customer_account_main()
