@@ -143,4 +143,4 @@ def validate_transactions(filepath: str):
     print(f"Dropped {len(invalid_transactions)} invalid_transactions from valid_transactions.")
     print(f"Dropped {len(filtered_df)} filtered transactions from valid_transactions")
 
-    return valid_transactions, invalid_transactions
+    return valid_transactions, invalid_transactions, results
